@@ -10,10 +10,9 @@ ssl._create_default_https_context = ssl._create_unverified_context
 def download_and_merge(playlist_url, download_folder, output_extension):
     os.makedirs(download_folder, exist_ok=True)
     playlist = Playlist(playlist_url)
+    videos = playlist.videos
     video_files = []
-
-    i = 0
-    for video in tqdm(playlist.videos):
+    for video in tqdm(videos):
         stream = video.streams.filter(progressive=True).get_highest_resolution()
         stream.download(download_folder)
         file = f"{download_folder}/{stream.default_filename}"
